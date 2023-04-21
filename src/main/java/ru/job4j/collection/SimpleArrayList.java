@@ -17,7 +17,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         try {
             Objects.checkIndex(size, container.length);
         } catch (IndexOutOfBoundsException e) {
-            grow(container);
+            grow();
         }
         container[size++] = value;
         modCount++;
@@ -82,7 +82,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         };
     }
 
-    private void grow(T[] array) {
+    private void grow() {
         container = Arrays.copyOf(container, container.length * 2 + 1);
     }
 }
