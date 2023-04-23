@@ -36,6 +36,12 @@ class ListUtilsTest {
     }
 
     @Test
+    void whenAddAfterWithInvalidIndex() {
+        assertThatThrownBy(() -> ListUtils.addAfter(input, 2, 5))
+                .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
     void whenRemoveIfNumberOver5() {
         input.add(4);
         input.add(5);
