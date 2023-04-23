@@ -5,21 +5,28 @@ import java.util.NoSuchElementException;
 public class SimpleQueue<T> {
     private final SimpleStack<T> in = new SimpleStack<>();
     private final SimpleStack<T> out = new SimpleStack<>();
-    ForwardLinked<T> forwardLinked = new ForwardLinked<>();
-
+    private int count;
     public T poll() {
-        T el;
-        try {
-            el = forwardLinked.deleteFirst();
-            in.push(el);
-            out.push(in.pop());
-        } catch (NoSuchElementException e) {
-            throw new NoSuchElementException("Queue is empty");
+        if (count > 0) {
+            for (int i = 0; i < count - 1; i++) {
+                out.push(in.pop());
+            }
+            T element = in.pop();
+            if (count == 1) {
+                count = 0;
+            } else {
+                for (int i = 0; i < count - 1; i++) {
+                    in.push(out.pop());
+                }
+                count--;
+            }
+            return element;
         }
-        return out.pop();
+        throw new NoSuchElementException("Queue is empty");
     }
 
     public void push(T value) {
-        forwardLinked.add(value);
+        in.push(value);
+        count++;
     }
 }

@@ -59,4 +59,30 @@ class SimpleQueueTest {
         queue.push(3);
         assertThat(queue.poll()).isEqualTo(2);
     }
+
+    @Test
+    void when4PushAnd5Poll() {
+        queue.push(2);
+        queue.push(3);
+        queue.push(4);
+        queue.push(5);
+        assertThat(queue.poll()).isEqualTo(1);
+        assertThat(queue.poll()).isEqualTo(2);
+        assertThat(queue.poll()).isEqualTo(3);
+        assertThat(queue.poll()).isEqualTo(4);
+        assertThat(queue.poll()).isEqualTo(5);
+    }
+
+    @Test
+    void when2Push1Poll2Push4Poll() {
+        queue.push(2);
+        queue.push(3);
+        assertThat(queue.poll()).isEqualTo(1);
+        queue.push(4);
+        queue.push(5);
+        assertThat(queue.poll()).isEqualTo(2);
+        assertThat(queue.poll()).isEqualTo(3);
+        assertThat(queue.poll()).isEqualTo(4);
+        assertThat(queue.poll()).isEqualTo(5);
+    }
 }
