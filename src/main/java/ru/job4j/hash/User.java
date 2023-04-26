@@ -16,7 +16,6 @@ public class User {
     public static void main(String[] args) {
         Calendar birthday = Calendar.getInstance();
         User firstUser = new User("Nikita", 0, birthday);
-        User thirdUser = new User("Nikita", 0, birthday);
         int hashCodeFirst = firstUser.hashCode();
         int hashFirst = hashCodeFirst ^ (hashCodeFirst >>> 16);
         int bucketFirst = hashFirst & 15;
@@ -35,11 +34,21 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        return (this == o);
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return children == user.children
+                && Objects.equals(name, user.name)
+                && Objects.equals(birthday, user.birthday);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(name, children, birthday);
     }
+
 }
