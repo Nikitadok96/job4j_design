@@ -16,6 +16,7 @@ public class User {
     public static void main(String[] args) {
         Calendar birthday = Calendar.getInstance();
         User firstUser = new User("Nikita", 0, birthday);
+        User thirdUser = new User("Nikita", 0, birthday);
         int hashCodeFirst = firstUser.hashCode();
         int hashFirst = hashCodeFirst ^ (hashCodeFirst >>> 16);
         int bucketFirst = hashFirst & 15;
@@ -32,10 +33,10 @@ public class User {
         map.put(secondUser, new Object());
     }
 
-    /*@Override
+    @Override
     public boolean equals(Object o) {
-        return false;
-    }*/
+        return (this == o);
+    }
 
     @Override
     public int hashCode() {
