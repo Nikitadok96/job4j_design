@@ -72,7 +72,7 @@ class SimpleMapTest {
     void whenPutResizeRemove() {
         assertThat(map.put(0, "Nullable")).isTrue();
         assertThat(map.put(7, "7")).isTrue();
-        assertThat(map.put(8,"8")).isTrue();
+        assertThat(map.put(8, "8")).isTrue();
         assertThat(map).hasSize(7);
         assertThat(map.put(14, "14")).isTrue();
         assertThat(map).hasSize(8);
