@@ -96,14 +96,16 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rls = false;
-        int index = Objects.nonNull(key) ? getIndex(key) : 0;
-        if (index != 0 && Objects.nonNull(table[index])) {
+        int index = Objects.nonNull(key) ? getIndex(key) : -1;
+        if (index != -1 && Objects.nonNull(table[index])) {
             K old = table[index].key;
             if (hash(old.hashCode()) == hash(key.hashCode()) && key.equals(old)) {
                 rls = removeVal(index);
             }
-        } else if (Objects.nonNull(table[0])) {
-            rls = removeVal(0);
+        } else {
+            if (Objects.nonNull(table[0])) {
+                rls = removeVal(0);
+            }
         }
         return rls;
     }
