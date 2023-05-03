@@ -3,6 +3,7 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleMap<K, V> implements Map<K, V> {
     private static final float LOAD_FACTOR = 0.75f;
@@ -15,24 +16,29 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private MapEntry<K, V>[] table = new MapEntry[capacity];
 
+    private boolean putVal(K key, V value, int index) {
+        table[index] = new MapEntry<>(key, value);
+        count++;
+        modCount++;
+        return true;
+    }
+
+    private int getIndex(K key) {
+        int h = hash(key.hashCode());
+        return indexFor(h);
+    }
+
     @Override
     public boolean put(K key, V value) {
         boolean rsl = false;
-        if (key != null) {
-            int h = hash(key.hashCode());
-            int index = indexFor(h);
-            if (table[index] == null) {
-                table[index] = new MapEntry<>(key, value);
-                count++;
-                modCount++;
-                rsl = true;
+        int index = Objects.nonNull(key) ? getIndex(key) : -1;
+        if (index != -1) {
+            if (Objects.isNull(table[index])) {
+                rsl = putVal(key, value, index);
             }
-        } else {
-            if (table[0] == null) {
-                table[0] = new MapEntry<>(null, value);
-                count++;
-                modCount++;
-                rsl = true;
+        } else  {
+            if (Objects.isNull(table[0])) {
+                rsl = putVal(null, value, 0);
             }
         }
         if (count >= LOAD_FACTOR * capacity) {
@@ -50,43 +56,37 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private void expand() {
-        int newCapacity = capacity * 2;
-        MapEntry<K, V>[] newTable = new MapEntry[newCapacity];
         MapEntry<K, V>[] oldTable = new MapEntry[capacity];
         System.arraycopy(table, 0, oldTable, 0, table.length);
         capacity *= 2;
+        table = new MapEntry[capacity];
         for (int i = 0; i < oldTable.length; i++) {
             MapEntry<K, V> e = oldTable[i];
             K key = e == null ? null : e.key;
-            if (key != null) {
-                int h = hash(key.hashCode());
-                int index = indexFor(h);
-                newTable[index] = new MapEntry<>(key, e.value);
+            if (Objects.nonNull(key)) {
+                int index = getIndex(key);
+                table[index] = new MapEntry<>(key, e.value);
             } else {
-                newTable[0] = new MapEntry<>(null, get(null));
+                table[0] = new MapEntry<>(null, get(null));
             }
         }
-        table = newTable;
     }
 
     @Override
     public V get(K key) {
         V value = null;
-        if (key != null) {
-            int h = hash(key.hashCode());
-            int index = indexFor(h);
-            if (table[index] != null) {
+        int index = Objects.nonNull(key) ? getIndex(key) : -1;
+        if (index != -1) {
+            if (Objects.nonNull(table[index])) {
                 MapEntry<K, V> old = table[index];
-                if (old.key != null) {
-                    int oldHash = hash(old.key.hashCode());
-                    if (oldHash == h && key.equals(old.key)) {
+                if (Objects.nonNull(old.key)) {
+                    if (hash(old.key.hashCode()) == hash(key.hashCode()) && key.equals(old.key)) {
                         value = table[index].value;
                     }
                 }
             }
         } else {
-            MapEntry<K, V> m = table[0];
-            if (m != null && m.key == null) {
+            if (Objects.nonNull(table[0]) && Objects.isNull(table[0].key)) {
                 value = table[0].value;
             }
         }
@@ -96,33 +96,25 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rls = false;
-        if (key != null) {
-            int h = hash(key.hashCode());
-            int index = indexFor(h);
-            if (table[index] != null) {
-                K old = table[index].key;
-                int oldHash = hash(old.hashCode());
-                if (oldHash == h && key.equals(old)) {
-                    table[index].key = null;
-                    table[index].value = null;
-                    table[index] = null;
-                    modCount++;
-                    count--;
-                    rls = true;
-                }
+        int index = Objects.nonNull(key) ? getIndex(key) : 0;
+        if (index != 0 && Objects.nonNull(table[index])) {
+            K old = table[index].key;
+            if (hash(old.hashCode()) == hash(key.hashCode()) && key.equals(old)) {
+                rls = removeVal(index);
             }
-        } else {
-            MapEntry<K, V> m = table[0];
-            if (m != null) {
-                table[0].key = null;
-                table[0].value = null;
-                table[0] = null;
-                modCount++;
-                count--;
-                rls = true;
-            }
+        } else if (Objects.nonNull(table[0])) {
+            rls = removeVal(0);
         }
         return rls;
+    }
+
+    private boolean removeVal(int index) {
+        table[index].key = null;
+        table[index].value = null;
+        table[index] = null;
+        modCount++;
+        count--;
+        return true;
     }
 
     @Override
