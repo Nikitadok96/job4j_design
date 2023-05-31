@@ -13,12 +13,10 @@ public class LogFilter {
     public List<String> filter(String file) {
         List<String> list = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            for (String i = in.readLine(); i != null; i = in.readLine()) {
-                String[] array = i.split(" ");
-                if ("404".equals(array[array.length - 2])) {
-                    list.add(i);
-                }
-            }
+            list = in.lines().filter(l -> {
+                String[] arr = l.split(" ");
+                return "404".equals(arr[arr.length - 2]);
+            }).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
