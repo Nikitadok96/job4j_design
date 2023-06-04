@@ -20,21 +20,24 @@ public class Config {
 
     public void load() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(this.path))) {
-            Pattern pattern = Pattern.compile("^.+=\\w.+");
             values.putAll(bufferedReader.lines()
-                            .filter(s -> {
-                                boolean rsl = s.length() > 0 && !s.startsWith("#");
-                                if (rsl && !pattern.matcher(s).find()) {
-                                    throw new IllegalArgumentException("Pattern violation: " + s);
-                                }
-                                return rsl;
-                            })
+                            .filter(this::patternFilter)
                     .map(s -> s.split("=", 2))
                     .collect(Collectors.toMap(k -> k[0], v -> v[1])));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean patternFilter(String str) {
+        Pattern pattern = Pattern.compile("^.+=\\w.+");
+        boolean rsl = !str.isBlank() && !str.startsWith("#");
+        if (rsl && !pattern.matcher(str).find()) {
+            String patternString = "Pattern violation: %s";
+            throw new IllegalArgumentException(String.format(patternString, str));
+        }
+        return rsl;
     }
 
     public String value(String key) {
