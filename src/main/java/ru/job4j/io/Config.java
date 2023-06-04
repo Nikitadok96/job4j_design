@@ -23,9 +23,9 @@ public class Config {
             Pattern pattern = Pattern.compile("^.+=\\w.+");
             values.putAll(bufferedReader.lines()
                             .filter(s -> {
-                                boolean rsl = s.length() > 0;
+                                boolean rsl = s.length() > 0 && !s.startsWith("#");
                                 if (rsl && !pattern.matcher(s).find()) {
-                                    throw new IllegalArgumentException();
+                                    throw new IllegalArgumentException("Pattern violation: " + s);
                                 }
                                 return rsl;
                             })

@@ -29,6 +29,16 @@ class ConfigTest {
         String path = "./data/violation_pattern.properties";
         Config config = new Config(path);
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(config::load);
+                .isThrownBy(config::load)
+                .withMessage("Pattern violation: =vozhegov");
+    }
+
+    @Test
+    void whenComment() {
+        String path = "./data/app.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("#")).isNull();
+        assertThat(config.value("PostgreSQL")).isNull();
     }
 }
