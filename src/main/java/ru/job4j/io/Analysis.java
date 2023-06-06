@@ -5,31 +5,32 @@ import java.util.regex.Pattern;
 
 public class Analysis {
     public void unavailable(String source, String target) {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(source))) {
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(target))) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(source));
+            Pattern pattern = Pattern.compile("^[4, 5]");
             boolean isWorking = true;
-            try (FileWriter fileWriter = new FileWriter(target)) {
-                while (bufferedReader.ready()) {
-                    String str = bufferedReader.readLine();
-                    if (errorServer(str) && isWorking) {
-                        fileWriter.write(str.split(" ")[1]);
-                        fileWriter.write(";");
+            while (bufferedReader.ready()) {
+                String str = bufferedReader.readLine();
+                String message = pattern.matcher(str).find()
+                        ? String.format("%s;", str.split(" ")[1])
+                        : String.format("%s;\n", str.split(" ")[1]);
+                if (pattern.matcher(str).find()) {
+                    if (isWorking) {
+                        printWriter.write(message);
                         isWorking = false;
                     }
-                    if (!errorServer(str) && !isWorking) {
-                        fileWriter.write(str.split(" ")[1]);
-                        fileWriter.write(";");
-                        fileWriter.write("\n");
+                } else {
+                    if (!isWorking) {
+                        printWriter.write(message);
                         isWorking = true;
                     }
                 }
+
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    private boolean errorServer(String str) {
-        Pattern pattern = Pattern.compile("^[4, 5]");
-        return pattern.matcher(str).find();
     }
 
     public static void main(String[] args) {
