@@ -10,21 +10,14 @@ import java.util.*;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
-    private HashMap<FileProperty, List<Path>> duplicatesMap = new HashMap<>();
+    private final Map<FileProperty, List<Path>> duplicatesMap = new HashMap<>();
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        push(file);
+        FileProperty property = new FileProperty(Files.size(file), file.getFileName().toString());
+        duplicatesMap.computeIfAbsent(property, s -> new ArrayList<>()).add(file.toAbsolutePath());
         return super.visitFile(file, attrs);
     }
-
-    private void push(Path file) throws IOException {
-        FileProperty property = new FileProperty(Files.size(file), file.getFileName().toString());
-        List<Path> paths;
-        paths = duplicatesMap.containsKey(property) ? duplicatesMap.get(property) : new ArrayList<>();
-        paths.add(file.toAbsolutePath());
-        duplicatesMap.put(property, paths);
-    }
-    public HashMap<FileProperty, List<Path>> getDuplicatesMap() {
+    public Map<FileProperty, List<Path>> getDuplicatesMap() {
         return duplicatesMap;
     }
 }
