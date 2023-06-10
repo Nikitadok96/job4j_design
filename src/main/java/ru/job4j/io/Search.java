@@ -29,4 +29,5 @@ public class Search {
                     "The required number of arguments is 2. But passed %s", args.length));
         }
     }
+
 }
