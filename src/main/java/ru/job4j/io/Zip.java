@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -37,7 +38,7 @@ public class Zip {
 
     public static void main(String[] args) throws IOException {
         ArgsName argsName = ArgsName.of(args);
-        List.of("d", "e", "o").forEach(argsName::get);
+        validationArgs(argsName);
         Path sourceFolder = Paths.get(argsName.get("d"));
         if (!Files.exists(sourceFolder)) {
             throw new IllegalArgumentException(String.format(
@@ -51,6 +52,19 @@ public class Zip {
                 new File("./pom.zip")
         );
         zip.packFiles(pathList, new File(argsName.get("o")));
+    }
+
+    private static void validationArgs(ArgsName argsName) {
+        if (!Files.isDirectory(Paths.get(argsName.get("d")))) {
+            throw new IllegalArgumentException("The first argument must be a directory.");
+        }
+        Pattern pattern = Pattern.compile("(\\.[^.]+)$");
+        if (!pattern.matcher(argsName.get("e")).find()) {
+            throw new IllegalArgumentException("The second argument must be the file extension.");
+        }
+        if (!Files.exists(Paths.get(argsName.get("o")))) {
+            throw new IllegalArgumentException("The third argument must be a file.");
+        }
     }
 
 
