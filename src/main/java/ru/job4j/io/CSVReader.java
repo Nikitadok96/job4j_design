@@ -49,28 +49,23 @@ public class CSVReader {
     }
 
     public static void main(String[] args) throws Exception {
-        validateArgs(args);
         ArgsName argsName = ArgsName.of(args);
+        validateArgs(argsName);
         handle(argsName);
     }
 
-    private static void validateArgs(String[] args) {
-        if (args.length != 4) {
-            throw new IllegalArgumentException(String.format(
-                    "The required number of arguments is 4. But passed %s", args.length));
-        }
+    private static void validateArgs(ArgsName args) {
         Pattern pattern = Pattern.compile("\\.csv$");
-        if (!pattern.matcher(args[0].split("=")[1]).find()) {
+        if (!pattern.matcher(args.get("path")).find()) {
             throw new IllegalArgumentException("The first argument must be a file.");
         }
-        if (!";".equals(args[1].split("=")[1])) {
-            System.out.println(args[1].split("=")[1]);
+        if (!";".equals(args.get("delimiter"))) {
             throw new IllegalArgumentException("The second argument should be a delimiter ;");
         }
-        if (!"stdout".equals(args[2].split("=")[1]) && !pattern.matcher(args[2].split("=")[1]).find()) {
+        if (!"stdout".equals(args.get("out")) && !pattern.matcher(args.get("out")).find()) {
             throw new IllegalArgumentException("The third argument must be stdout or a file");
         }
-        if (args[3].split("=")[1].isEmpty()) {
+        if (args.get("filter").isEmpty()) {
             throw new IllegalArgumentException("The fourth argument cannot be empty");
         }
     }
