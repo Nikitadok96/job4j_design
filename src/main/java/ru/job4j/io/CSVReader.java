@@ -59,8 +59,8 @@ public class CSVReader {
         if (!pattern.matcher(args.get("path")).find()) {
             throw new IllegalArgumentException("The first argument must be a file.");
         }
-        if (!";".equals(args.get("delimiter"))) {
-            throw new IllegalArgumentException("The second argument should be a delimiter ;");
+        if (!List.of(";", ",").contains(args.get("delimiter"))) {
+            throw new IllegalArgumentException("The second argument should be a delimiter ; or ,");
         }
         if (!"stdout".equals(args.get("out")) && !pattern.matcher(args.get("out")).find()) {
             throw new IllegalArgumentException("The third argument must be stdout or a file");
