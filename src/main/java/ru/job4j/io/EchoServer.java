@@ -25,8 +25,6 @@ public class EchoServer {
                             out.write("Bye\r\n\r\n".getBytes());
                             server.close();
                             break;
-                        } else {
-                            out.write(String.format("%s\r\n\r\n", line).getBytes());
                         }
                     }
                     for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
