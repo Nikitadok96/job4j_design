@@ -12,6 +12,7 @@ public class UsageLog4j {
         byte age = 26;
         short admissionYear = 2023;
         int solvedTasks = 450;
+        long days = 180L;
         float countTaskDay = 2.09f;
         double completedEx = 28.18;
         boolean isCompleted = false;
@@ -19,7 +20,8 @@ public class UsageLog4j {
         LOG.debug("User info: age {}. gets grades {}", age, grade);
         LOG.debug("The year of admission to the course {}, during this time it was decided {}",
                 admissionYear, solvedTasks);
-        LOG.debug("Average number of tasks per day {}", countTaskDay);
+        LOG.debug("Average number of tasks per day {}, вays from the start of training {}",
+                countTaskDay, days);
         LOG.debug("Course completed: {}, course completed on {}", isCompleted, completedEx);
     }
 }
