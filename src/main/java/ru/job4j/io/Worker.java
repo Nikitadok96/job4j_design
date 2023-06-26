@@ -3,14 +3,32 @@ package ru.job4j.io;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.*;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 
+@XmlRootElement(name = "worker")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Worker {
+    @XmlAttribute
     private boolean employed;
+    @XmlAttribute
     private int salary;
     private String name;
     private Contact selfContact;
+    @XmlElementWrapper(name = "staffs")
+    @XmlElement(name = "staff")
     private String[] staff;
+
+    public Worker() {
+
+    }
 
     public Worker(boolean employed, int salary, String name, Contact selfContact, String[] staff) {
         this.employed = employed;
@@ -31,23 +49,26 @@ public class Worker {
                 + '}';
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JAXBException {
         final Worker worker = new Worker(true, 50000, "Nikita",
                 new Contact(610, "+7930"), new String[] {"Ksenia", "Tatiana"});
-        final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(worker));
-        final String secondWorker =
-                "{"
-                    + "\"employed\":true,"
-                    + "\"salary\":35000,"
-                    + "\"name\":\"Oleg\","
-                    + "\"selfContact\":"
-                    + "{"
-                    + "\"zipCode\":305,\"phone\":\"+7991\""
-                    + "},"
-                    + "\"staff\":[\"Maksim\",\"Pavel\"]"
-                    + "}";
-        final Worker workerMod = gson.fromJson(secondWorker, Worker.class);
-        System.out.println(workerMod);
+
+        JAXBContext context = JAXBContext.newInstance(Worker.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        String xml = "";
+        try (StringWriter stringWriter = new StringWriter()) {
+            marshaller.marshal(worker, stringWriter);
+            xml = stringWriter.getBuffer().toString();
+            System.out.println(xml);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        try (StringReader stringReader = new StringReader(xml)) {
+            Worker rsl = (Worker) unmarshaller.unmarshal(stringReader);
+            System.out.println(rsl);
+        }
     }
 }
