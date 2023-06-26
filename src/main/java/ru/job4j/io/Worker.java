@@ -49,6 +49,18 @@ public class Worker {
                 + '}';
     }
 
+    public boolean getEmployed() {
+        return employed;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public static void main(String[] args) throws JAXBException {
         final Worker worker = new Worker(true, 50000, "Nikita",
                 new Contact(610, "+7930"), new String[] {"Ksenia", "Tatiana"});
