@@ -57,6 +57,14 @@ public class Worker {
         return salary;
     }
 
+    public Contact getSelfContact() {
+        return selfContact;
+    }
+
+    public String[] getStaff() {
+        return staff;
+    }
+
     public String getName() {
         return name;
     }
