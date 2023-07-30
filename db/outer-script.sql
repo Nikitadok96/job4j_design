@@ -1,0 +1,71 @@
+select
+    departments.name as Департамент,
+    employees.name as Работник
+from
+    departments
+    left join employees
+    on departments.id = employees.departments_id;
+	
+select
+	departments.name as Департамент,
+    employees.name as Работник
+from
+	departments
+    right join employees
+    on departments.id = employees.departments_id;
+
+select
+	departments.name as Департамент,
+    employees.name as Работник
+from
+	departments
+    full join employees
+    on departments.id = employees.departments_id;
+	
+select
+	departments.name as Департамент,
+    employees.name as Работник
+from
+	departments
+    cross join employees;
+	
+select
+	departments.name as Департамент,
+    employees.name as Работник
+from
+	departments
+    left join employees
+    on departments.id = employees.departments_id
+where 
+	employees.name is null;
+	
+select
+    departments.name as Департамент,
+    employees.name as Работник
+from
+    departments
+    left join employees
+    on departments.id = employees.departments_id
+where
+	employees.name is not null;
+	
+select
+    departments.name as Департамент,
+    employees.name as Работник
+from
+    departments
+    right join employees
+    on departments.id = employees.departments_id
+where
+	departments.name is not null;
+	
+select
+	t1.name name_one,
+	t1.gender gender_one,
+	t2.name name_two,
+	t2.gender gender_two
+from
+	teens as t1
+	cross join teens as t2
+where
+	t1.gender != t2.gender;
