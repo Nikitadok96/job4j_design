@@ -61,11 +61,10 @@ where
 	
 select
 	t1.name name_one,
-	t1.gender gender_one,
-	t2.name name_two,
-	t2.gender gender_two
+	t2.name name_two
 from
 	teens as t1
 	cross join teens as t2
 where
-	t1.gender != t2.gender;
+	t1.gender != t2.gender
+	and t1.name > t2.name;
