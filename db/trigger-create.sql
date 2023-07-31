@@ -40,7 +40,7 @@ $$
 	BEGIN
 		update products
 		set price = price * 1.2
-		where id = (select id from inserted);
+		where id in (select id from inserted);
 		return NEW;
 	END;
 $$
