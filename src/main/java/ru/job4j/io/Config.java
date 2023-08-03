@@ -56,6 +56,8 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Config("data/app.properties"));
+        Config config = new Config("data/app.properties");
+        config.load();
+        config.values.forEach((k, v) -> System.out.println("Key: " + k + "\nValue: " + v));
     }
 }
