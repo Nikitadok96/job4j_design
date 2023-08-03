@@ -1,0 +1,42 @@
+select
+	name
+from 
+	movie
+INTERSECT
+select
+	title
+from
+	book;
+	
+select
+	title
+from
+	book
+EXCEPT
+select
+	name
+from
+	movie;
+	
+(select
+	name
+from 
+	movie 
+EXCEPT
+select
+	title
+from
+	book
+)
+UNION
+(
+select
+	title
+from
+	book
+EXCEPT
+select
+	name
+from 
+	movie
+);
