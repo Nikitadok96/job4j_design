@@ -1,0 +1,10 @@
+insert into person (id, name, company_id) values (1, 'Nikita', 1);
+insert into person (id, name, company_id) values (2, 'Oleg', 1);
+insert into person (id, name, company_id) values (3, 'Marina', 2);
+insert into person (id, name, company_id) values (4, 'Viktoria', 2);
+insert into person (id, name, company_id) values (5, 'Viktor', 2);
+insert into person (id, name, company_id) values (6, 'Semen', 3);
+insert into person (id, name, company_id) values (7, 'Maria', 4);
+insert into person (id, name, company_id) values (8, 'Sergey', 5);
+insert into person (id, name, company_id) values (9, 'Kirill', 5);
+insert into person (id, name, company_id) values (10, 'Dmitry', 5);
