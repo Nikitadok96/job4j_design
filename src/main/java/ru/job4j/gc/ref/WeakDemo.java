@@ -69,7 +69,7 @@ public class WeakDemo {
         TimeUnit.SECONDS.sleep(3);
         Object ob = weak.get();
         if (ob != null) {
-
+            System.out.println("Peek");
         } else {
             System.out.println("Pool");
             ob = queue.poll();
