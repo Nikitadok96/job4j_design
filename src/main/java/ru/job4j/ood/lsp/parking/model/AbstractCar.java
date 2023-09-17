@@ -1,7 +1,35 @@
 package ru.job4j.ood.lsp.parking.model;
 
-import java.util.List;
+import java.util.Objects;
 
-public abstract class AbstractCar {
+public abstract class AbstractCar implements Car {
+    private final String number;
+    private final int capacity;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AbstractCar that = (AbstractCar) o;
+        return capacity == that.capacity && Objects.equals(number, that.number);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, capacity);
+    }
+
+    public AbstractCar(String number, int capacity) {
+        this.capacity = capacity;
+        this.number = number;
+    }
+
+    @Override
+    public int getCapacity() {
+        return capacity;
+    }
 }
