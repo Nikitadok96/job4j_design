@@ -3,6 +3,7 @@ package ru.job4j.ood.lsp.store;
 import org.junit.jupiter.api.Test;
 import ru.job4j.ood.lsp.model.Food;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -13,10 +14,10 @@ class ShopTest {
     public void whenCurrentAddOneFood() {
         Store store = new Shop();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 8),
-                new GregorianCalendar(2023, 8, 26),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 8),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
-        store.add(first);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).containsSequence(List.of(first));
     }
@@ -25,15 +26,15 @@ class ShopTest {
     public void whenCurrentAddTwoFood() {
         Store store = new Shop();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 10),
-                new GregorianCalendar(2023, 8, 26),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 10),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
         Food second = new Food("Orange",
-                new GregorianCalendar(2023, 8, 11),
-                new GregorianCalendar(2023, 8, 30),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 11),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 30),
                 100, 20);
-        store.add(first);
-        store.add(second);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
+        store.add(second, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).containsSequence(List.of(first, second));
     }
@@ -42,10 +43,10 @@ class ShopTest {
     public void whenCurrentNotAddFood() {
         Store store = new Shop();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 15),
-                new GregorianCalendar(2023, 8, 26),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
-        store.add(first);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).doesNotContain(first);
     }
@@ -54,15 +55,15 @@ class ShopTest {
     public void whenCurrentAdd1OfThe2Food() {
         Store store = new Shop();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 5),
-                new GregorianCalendar(2023, 8, 26),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 5),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
         Food second = new Food("Orange",
-                new GregorianCalendar(2023, 8, 15),
-                new GregorianCalendar(2023, 8, 30),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 30),
                 100, 20);
-        store.add(first);
-        store.add(second);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
+        store.add(second, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).containsSequence(List.of(first));
         assertThat(rsl).hasSize(1);
@@ -72,13 +73,14 @@ class ShopTest {
     public void whenCurrentAddDiscount() {
         Store store = new Shop();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 8),
-                new GregorianCalendar(2023, 8, 19),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 8),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 19),
                 100, 20);
-        store.add(first);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         double expectedPrice = 80;
         double rslPrice = rsl.get(0).getPrice();
+        System.out.println();
         assertThat(expectedPrice).isEqualTo(rslPrice);
     }
 }

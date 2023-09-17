@@ -1,15 +1,9 @@
 package ru.job4j.ood.lsp.controller;
 
 import ru.job4j.ood.lsp.model.Food;
-import ru.job4j.ood.lsp.store.Shop;
 import ru.job4j.ood.lsp.store.Store;
-import ru.job4j.ood.lsp.store.Trash;
-import ru.job4j.ood.lsp.store.Warehouse;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 public class ControlQuality {
     List<Store> stores = new ArrayList<>();
@@ -18,12 +12,10 @@ public class ControlQuality {
         this.stores.addAll(stores);
     }
 
-    public void init(Food food) {
-        this.stores.forEach(s -> s.add(food));
-    }
-
-    public void init(List<Food> foods) {
-        foods.forEach(food -> stores.forEach(store -> store.add(food)));
+    public void init(List<Food> foods, Calendar currentDate) {
+        stores.forEach(store -> {
+            foods.removeIf(food -> store.add(food, currentDate));
+        });
     }
 
     public List<Store> getStores() {

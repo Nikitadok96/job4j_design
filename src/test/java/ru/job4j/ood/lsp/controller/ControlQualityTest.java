@@ -7,6 +7,8 @@ import ru.job4j.ood.lsp.store.Store;
 import ru.job4j.ood.lsp.store.Trash;
 import ru.job4j.ood.lsp.store.Warehouse;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -19,23 +21,32 @@ class ControlQualityTest {
         Store shopStore = new Shop();
         Store trashStore = new Trash();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 14),
-                new GregorianCalendar(2023, 8, 26),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
         Food second = new Food("Orange",
-                new GregorianCalendar(2023, 8, 11),
-                new GregorianCalendar(2023, 8, 30),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 11),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 30),
                 100, 20);
         Food third = new Food("Banana",
-                new GregorianCalendar(2023, 8, 8),
-                new GregorianCalendar(2023, 8, 16),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 8),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 16),
+                100, 20);
+        Food four = new Food("Fish",
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
         ControlQuality controlQuality = new ControlQuality(List.of(warehouseStore, shopStore, trashStore));
-        controlQuality.init(List.of(first, second, third));
+        List<Food> foods = new ArrayList<>();
+        foods.add(first);
+        foods.add(second);
+        foods.add(third);
+        foods.add(four);
+        controlQuality.init(foods, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> warehouseList = warehouseStore.getListFood();
         List<Food> shopList = shopStore.getListFood();
         List<Food> trashList = trashStore.getListFood();
-        assertThat(warehouseList).containsSequence(first);
+        assertThat(warehouseList).containsSequence(List.of(first, four));
         assertThat(shopList).containsSequence(second);
         assertThat(trashList).containsSequence(third);
     }

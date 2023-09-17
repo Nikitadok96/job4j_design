@@ -14,10 +14,10 @@ class TrashTest {
     public void whenCurrentAddOneFood() {
         Store store = new Trash();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 14),
-                new GregorianCalendar(2023, 8, 15),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 14),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
                 100, 20);
-        store.add(first);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).containsSequence(List.of(first));
     }
@@ -26,15 +26,15 @@ class TrashTest {
     public void whenCurrentAddTwoFood() {
         Store store = new Trash();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 8),
-                new GregorianCalendar(2023, 8, 12),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 8),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 12),
                 100, 20);
         Food second = new Food("Orange",
-                new GregorianCalendar(2023, 8, 14),
-                Calendar.getInstance(),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 14),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 17),
                 100, 20);
-        store.add(first);
-        store.add(second);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
+        store.add(second, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).containsSequence(List.of(first, second));
     }
@@ -43,10 +43,10 @@ class TrashTest {
     public void whenCurrentNotAddFood() {
         Store store = new Trash();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 5),
-                new GregorianCalendar(2023, 8, 26),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 5),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
-        store.add(first);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).doesNotContain(first);
     }
@@ -55,15 +55,15 @@ class TrashTest {
     public void whenCurrentAdd1OfThe2Food() {
         Store store = new Trash();
         Food first = new Food("Apple",
-                new GregorianCalendar(2023, 8, 5),
-                new GregorianCalendar(2023, 8, 16),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 5),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 16),
                 100, 20);
         Food second = new Food("Orange",
-                new GregorianCalendar(2023, 8, 15),
-                new GregorianCalendar(2023, 8, 30),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
+                new GregorianCalendar(2023, Calendar.SEPTEMBER, 30),
                 100, 20);
-        store.add(first);
-        store.add(second);
+        store.add(first, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
+        store.add(second, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> rsl = store.getListFood();
         assertThat(rsl).containsSequence(List.of(first));
         assertThat(rsl).hasSize(1);

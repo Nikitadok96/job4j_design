@@ -22,12 +22,6 @@ public class Food {
         this.discount = discount;
     }
 
-    public double getRemainingExpirationDate() {
-        double lifeDuration = Duration.between(createDate.toInstant(), expiryDate.toInstant()).toHours();
-        double currentDuration = Duration.between(Calendar.getInstance().toInstant(), expiryDate.toInstant()).toHours();
-        return 100 - currentDuration * 100 / lifeDuration;
-    }
-
     public String getName() {
         return name;
     }
