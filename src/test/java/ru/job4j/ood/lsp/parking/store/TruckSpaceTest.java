@@ -8,7 +8,6 @@ import ru.job4j.ood.lsp.parking.model.TruckCar;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Disabled
 class TruckSpaceTest {
 
     @Test

@@ -13,7 +13,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Disabled
 class ParkingTest {
     @Test
     public void whenCurrentAdd1Pas1Truck() {
