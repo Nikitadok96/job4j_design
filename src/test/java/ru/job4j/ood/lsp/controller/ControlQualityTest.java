@@ -2,10 +2,9 @@ package ru.job4j.ood.lsp.controller;
 
 import org.junit.jupiter.api.Test;
 import ru.job4j.ood.lsp.model.Food;
-import ru.job4j.ood.lsp.store.Shop;
-import ru.job4j.ood.lsp.store.Store;
-import ru.job4j.ood.lsp.store.Trash;
-import ru.job4j.ood.lsp.store.Warehouse;
+import ru.job4j.ood.lsp.service.FoodService;
+import ru.job4j.ood.lsp.service.SimpleFoodService;
+import ru.job4j.ood.lsp.store.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,12 +35,16 @@ class ControlQualityTest {
                 new GregorianCalendar(2023, Calendar.SEPTEMBER, 15),
                 new GregorianCalendar(2023, Calendar.SEPTEMBER, 26),
                 100, 20);
-        ControlQuality controlQuality = new ControlQuality(List.of(warehouseStore, shopStore, trashStore));
-        List<Food> foods = new ArrayList<>();
-        foods.add(first);
-        foods.add(second);
-        foods.add(third);
-        foods.add(four);
+        ShopStore shopStoreMemory = new MemoryShopStore();
+        shopStoreMemory.saveShop(warehouseStore);
+        shopStoreMemory.saveShop(shopStore);
+        shopStoreMemory.saveShop(trashStore);
+        ControlQuality controlQuality = new ControlQuality(shopStoreMemory);
+        FoodService foods = new SimpleFoodService();
+        foods.addFood(first);
+        foods.addFood(second);
+        foods.addFood(third);
+        foods.addFood(four);
         controlQuality.init(foods, new GregorianCalendar(2023, Calendar.SEPTEMBER, 17));
         List<Food> warehouseList = warehouseStore.getListFood();
         List<Food> shopList = shopStore.getListFood();
