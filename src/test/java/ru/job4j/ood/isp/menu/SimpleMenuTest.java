@@ -1,7 +1,5 @@
 package ru.job4j.ood.isp.menu;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -57,9 +55,7 @@ class SimpleMenuTest {
         menu.add(Menu.ROOT, "Покормить собаку", STUB_ACTION);
         menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
         List<String> rls = new ArrayList<>();
-        menu.forEach(i -> {
-            rls.add(i.getNumber() + i.getName());
-        });
+        menu.forEach(i -> rls.add(i.getNumber() + i.getName()));
         List<String> expected = new ArrayList<>();
         expected.add("1.Сходить в магазин");
         expected.add("1.1.Купить продукты");
