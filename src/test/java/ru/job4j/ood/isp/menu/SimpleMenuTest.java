@@ -64,11 +64,13 @@ class SimpleMenuTest {
     }
     @Test
     public void whenAddPrintMenu() {
-        String expect = """
-                Задача 1.Сходить в магазин\r
-                ---- Задача 1.1.Купить продукты\r
-                Задача 2.Покормить собаку\r
-                """;
+        StringBuilder stringBuilder = new StringBuilder()
+                .append("Задача 1.Сходить в магазин")
+                .append(System.lineSeparator())
+                .append("---- Задача 1.1.Купить продукты")
+                .append(System.lineSeparator())
+                .append("Задача 2.Покормить собаку")
+                .append(System.lineSeparator());
         Menu menu = new SimpleMenu();
         menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION);
         menu.add(Menu.ROOT, "Покормить собаку", STUB_ACTION);
@@ -76,6 +78,6 @@ class SimpleMenuTest {
         MenuPrinter menuPrinter = new SimpleMenuPrinter();
         System.setOut(new PrintStream(outContent));
         menuPrinter.print(menu);
-        assertThat(expect).isEqualTo(outContent.toString());
+        assertThat(stringBuilder.toString()).isEqualTo(outContent.toString());
     }
 }
